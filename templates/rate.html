@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+	<title>
+		Air Ticket Reservation System
+	</title>
+
+	<style type = "text/css">
+		html {
+			min-height: 100%;
+		}
+
+		body {
+			background: linear-gradient(to bottom right, rgb(155, 155, 155), rgb(255, 255, 255));
+		}
+
+		table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>
+		Hello! You are logged in as: <i>{{email}}</i> <br>
+		Welcome to the air ticket reservation system homepage.
+	</h1>
+
+	<p>
+		My flights:
+	</p>
+
+	<table>
+		<th>Airline Name</th>
+		<th>Number</th>
+		<th>Status</th>
+		<th>Depart Airport</th>
+		<th>Depart Time</th>
+		<th>Arrival Airport</th>
+		<th>Arrival Time</th>
+
+		{% for line in myflights %}
+		<tr>
+			<td>{{line['airline_name']}}</td>
+			<td>{{line['flight_num']}}</td>
+			<td>{{line['status']}}</td>
+			<td>{{line['depart_airport']}}</td>
+			<td>{{line['depart_time']}}</td>
+			<td>{{line['arrive_airport']}}</td>
+			<td>{{line['arrive_time']}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	<p>Which trip would you like to review?</p>
+
+	<form action = "/rateAuth" method="POST">
+		<input type = "text" name = "flight_num" placeholder = "Flight number" required/> <br>
+		<input type = "text" name = "rating" placeholder = "1-5 stars" required/> <br>
+		<input type = "text" name = "comment" placeholder = "Comments" required/> <br>
+		<input type = "submit", value = "Submit" />
+	</form>
+
+	{% if error %}
+		<p class="error"><strong>Error:</strong> {{error}}</p>
+	{% else %}
+		<p>Rating successfully submitted!</p>
+	{% endif %}
+
+	<form action = "/homeCustomer">
+		<input type = "submit", value = "Back" />
+	</form>
+
+</body>
+</html>

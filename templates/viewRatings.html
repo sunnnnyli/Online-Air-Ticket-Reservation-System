@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+	<title>
+		Air Ticket Reservation System
+	</title>
+
+	<style type = "text/css">
+		html {
+			min-height: 100%;
+		}
+
+		body {
+			background: linear-gradient(to bottom right, rgb(155, 155, 155), rgb(255, 255, 255));
+		}
+
+		table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>
+		Hello, <i>{{username}}!</i> <br>
+		Welcome to the air ticket reservation system homepage.
+	</h1>
+
+	<p>Which flight do you want to view the ratings for?</p>
+
+	<form action = "/viewRatingsAuth" method="POST">
+		<input type = "text" name = "flight_num" placeholder = "Flight Number" required/> <br>
+		<input type = "submit", value = "Submit" />
+	</form>
+
+	{% if message %}
+	<p>
+		Here are the ratings for flight {{flight_num}}:
+	</p>
+	{% if rating %}
+	<table>
+		<th>User</th>
+		<th>Stars</th>
+		<th>Comments</th>
+
+		{% for line in rating %}
+		<tr>
+			<td>{{line['email']}}</td>
+			<td>{{line['stars']}}</td>
+			<td>{{line['comment']}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<p>
+		The average star rating for this flight is: {{avg_stars}}.
+	</p>
+	{% endif %}
+	{% else %}
+	<br>
+	{% endif %}
+
+	<form action = "/homeStaff">
+		<input type = "submit", value = "Back" />
+	</form>
+</body>
+</html>

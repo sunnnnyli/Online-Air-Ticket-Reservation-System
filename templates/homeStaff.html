@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+	<title>
+		Air Ticket Reservation System
+	</title>
+
+	<style type = "text/css">
+		html {
+			min-height: 100%;
+		}
+
+		body {
+			background: linear-gradient(to bottom right, rgb(155, 155, 155), rgb(255, 255, 255));
+		}
+
+		table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>
+		Hello, <i>{{username}}!</i> <br>
+		Welcome to the air ticket reservation system homepage.
+	</h1>
+
+	<p>
+		Here are the future flights operated by your airline for the next 30 days:
+	</p>
+
+	<table>
+		<th>Airline Name</th>
+		<th>Number</th>
+		<th>Status</th>
+		<th>Depart Airport</th>
+		<th>Depart Time</th>
+		<th>Arrival Airport</th>
+		<th>Arrival Time</th>
+
+		{% for line in flights %}
+		<tr>
+			<td>{{line['airline_name']}}</td>
+			<td>{{line['flight_num']}}</td>
+			<td>{{line['status']}}</td>
+			<td>{{line['depart_airport']}}</td>
+			<td>{{line['depart_time']}}</td>
+			<td>{{line['arrive_airport']}}</td>
+			<td>{{line['arrive_time']}}</td>
+		</tr>
+		{% endfor %}
+	</table> <br>
+
+	<form action = "/viewFlights">
+		<input type = "submit", value = "View Other Flights" />
+	</form>
+
+	<p>Modify system:</p>
+
+	<form action = "/createFlight">
+		<input type = "submit", value = "Create Flight" />
+	</form>
+	
+	<form action = "/updateFlightStatus">
+		<input type = "submit", value = "Update Flight Status" />
+	</form>
+	
+	<form action = "/addAirplane">
+		<input type = "submit", value = "Add Airplane" />
+	</form>
+	
+	<form action = "/addAirport">
+		<input type = "submit", value = "Add Airport" />
+	</form>
+
+	<p>View information:</p>
+
+	<form action = "/viewRatings">
+		<input type = "submit", value = "View Ratings" />
+	</form>
+	
+	<form action = "/viewFrequentCustomers">
+		<input type = "submit", value = "View Frequent Customers" />
+	</form>
+	
+	<form action = "/viewReports">
+		<input type = "submit", value = "View Reports" />
+	</form>
+	
+	<form action = "/viewRevenue">
+		<input type = "submit", value = "View Revenue" />
+	</form>
+
+	<p>Don't forget to logout!</p>
+
+	<form action = "/logoutStaff">
+		<input type = "submit", value = "Logout" />
+	</form>
+</body>
+</html>

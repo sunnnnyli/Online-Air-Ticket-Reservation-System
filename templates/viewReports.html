@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+	<title>
+		Air Ticket Reservation System
+	</title>
+
+	<style type = "text/css">
+		html {
+			min-height: 100%;
+		}
+
+		body {
+			background: linear-gradient(to bottom right, rgb(155, 155, 155), rgb(255, 255, 255));
+		}
+
+		table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>
+		Hello, <i>{{username}}!</i> <br>
+		Welcome to the air ticket reservation system homepage.
+	</h1>
+
+	<p>Enter a time range to view the reports for that interval.</p>
+	<p>Please input time in format: <i>YYYY-MM-DD HH:MM:SS</i></p>
+
+	<form action = "/viewReportsAuth" method="POST">
+		<input type = "text" name = "start_date" placeholder = "Start Date" required/> <br>
+		<input type = "text" name = "end_date" placeholder = "End Date" required/> <br>
+		<input type = "submit", value = "Submit" />
+	</form>
+
+	{% if message %}
+	<p>
+		Here is the report for the last 6 months:
+	</p>
+	{% if report %}
+	<table>
+		<th>Month</th>
+		<th># of Tickets</th>
+
+		{% for line in report %}
+		<tr>
+			<td>{{line['month']}}</td>
+			<td>{{line['ticket']}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+	<p>
+		From ({{start_date}}) to ({{end_date}}) <br>
+		Ticket(s) sold: {{tickets}}
+	</p>
+	{% endif %}
+
+	<form action = "/homeStaff">
+		<input type = "submit", value = "Back" />
+	</form>
+</body>
+</html>

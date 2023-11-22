@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+	<title>
+		Air Ticket Reservation System
+	</title>
+
+	<style type = "text/css">
+		html {
+			min-height: 100%;
+		}
+
+		body {
+			background: linear-gradient(to bottom right, rgb(155, 155, 155), rgb(255, 255, 255));
+		}
+
+		table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>
+		Hello! You are logged in as: <i>{{email}}</i> <br>
+		Welcome to the air ticket reservation system homepage.
+	</h1>
+
+	{% if error or start%}
+	<p>
+		You can search and buy tickets for future flights:
+	</p>
+	{% else %}
+	<p>
+		The relevant flights are listed below. You can purchase tickets or continue to search.
+	</p>
+	{% endif %}
+
+	<form action = "/searchCustomerAuth1" method = "POST">
+		<input type = "text" name = "arrive_airport" placeholder = "Arrive Airport" /> <br>
+		<input type = "text" name = "depart_airport" placeholder = "Depart Airport" /> <br>
+		<input type = "text" name = "arrive_city" placeholder = "Arrive City" /> <br>
+		<input type = "text" name = "depart_city" placeholder = "Depart City" /> <br>
+		<input type = "submit" value = Search />
+		{% if error and not start%}
+		<p class = "error"><strong>Error:</strong> {{error}}</p>
+		{% endif %}
+	</form> </br>
+
+	<form action = "/searchCustomerAuth2" method = "POST">
+		<input type = "text" name = "search_word" placeholder = "Airline Name/Flight Number" required/> <br>
+		<input type = "submit" value = Search />
+		{% if error and not start%}
+		<p class = "error"><strong>Error:</strong> {{error}}</p>
+		{% endif %}
+	</form> <br>
+
+	{% if search_data %}
+	<table>
+		<th>Airline Name</th>
+		<th>Number</th>
+		<th>Status</th>
+		<th>Depart Airport</th>
+		<th>Depart Time</th>
+		<th>Arrival Airport</th>
+		<th>Arrival Time</th>
+
+		{% for line in search_data %}
+		<tr>
+			<td>{{line['airline_name']}}</td>
+			<td>{{line['flight_num']}}</td>
+			<td>{{line['status']}}</td>
+			<td>{{line['depart_airport']}}</td>
+			<td>{{line['depart_time']}}</td>
+			<td>{{line['arrive_airport']}}</td>
+			<td>{{line['arrive_time']}}</td>
+		</tr>
+		{% endfor %}
+	</table> <br>
+
+	<form action = "/buyTicketAuth" method="POST">
+		<input type = "text" name = "flight_num" placeholder = "Flight number" required/> <br>
+		<input type = "text" name = "card_num" placeholder = "Card number" required/>
+		<input type = "text" name = "card_type" placeholder = "debit/credit" required/> <br>
+		<input type = "text" name = "card_holder" placeholder = "First Name Last Name" required/> <br>
+		<input type = "text" name = "card_exp" placeholder = "Expiration: YYYY-MM-DD" required/> <br>
+		<input type = "submit", value = "Purchase ticket" />
+	</form>
+	{% endif %}
+
+	<p>
+		My flights:
+	</p>
+
+	<table>
+		<th>Airline Name</th>
+		<th>Number</th>
+		<th>Status</th>
+		<th>Depart Airport</th>
+		<th>Depart Time</th>
+		<th>Arrival Airport</th>
+		<th>Arrival Time</th>
+
+		{% for line in myflights %}
+		<tr>
+			<td>{{line['airline_name']}}</td>
+			<td>{{line['flight_num']}}</td>
+			<td>{{line['status']}}</td>
+			<td>{{line['depart_airport']}}</td>
+			<td>{{line['depart_time']}}</td>
+			<td>{{line['arrive_airport']}}</td>
+			<td>{{line['arrive_time']}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	<p>Other options:</p>
+
+	<form action = "/cancelTrip">
+		<input type = "submit", value = "Cancel Trip" />
+	</form>
+
+	<form action = "/rate">
+		<input type = "submit", value = "Rate/Comment" />
+	</form>
+
+	<form action = "/mySpendings">
+		<input type = "submit", value = "My Spendings" />
+	</form>
+
+	<p>Don't forget to logout!</p>
+
+	<form action = "/logoutCustomer">
+		<input type = "submit", value = "Logout" />
+	</form>
+</body>
+</html>

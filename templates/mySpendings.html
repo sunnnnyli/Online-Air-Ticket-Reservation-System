@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+	<title>
+		Air Ticket Reservation System
+	</title>
+
+	<style type = "text/css">
+		html {
+			min-height: 100%;
+		}
+
+		body {
+			background: linear-gradient(to bottom right, rgb(155, 155, 155), rgb(255, 255, 255));
+		}
+
+		table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>
+		Hello! You are logged in as: <i>{{email}}</i> <br>
+		Welcome to the air ticket reservation system homepage.
+	</h1>
+
+	{% if yearly_money %}
+	<p>
+		You spent ${{yearly_money}} this year.
+	</p>
+	{% else %}
+	<p>
+		You've spent $0.00 this year.
+	</p>
+	{% endif %}
+
+	<p>
+		Here's your spending for the past 6 months:
+	</p>
+
+	<table>
+		<th>Month</th>
+		<th>Money Spent</th>
+		{% for line in monthly_money %}
+		<tr>
+			<td>{{line['month']}}</td>
+			<td>{{line['SUM(sold_price)']}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	<p>You can also view your spendings in a specific date range.</p>
+	<p>Please input time in format: <i>YYYY-MM-DD HH:MM:SS</i></p>
+
+	<form action = "/mySpendingsAuth" method="POST">
+		<input type = "text" name = "start_date" placeholder = "Start Date" required/> <br>
+		<input type = "text" name = "end_date" placeholder = "End Date" required/> <br>
+		<input type = "submit", value = "Submit" />
+	</form> 
+	
+	{% if date_range %}
+	{% if new_yearly_money %}
+	<p>
+		You spent ${{new_yearly_money}} from {{start_date}} to {{end_date}}.
+	</p>
+	{% else %}
+	<p>
+		You've spent $0.00 from {{start_date}} to {{end_date}}.
+	</p>
+	{% endif %}
+	<table>
+		<th>Month</th>
+		<th>Money Spent</th>
+		{% for line in new_monthly_money %}
+		<tr>
+			<td>{{line['month']}}</td>
+			<td>{{line['SUM(sold_price)']}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+
+	<br>
+	<form action = "/homeCustomer">
+		<input type = "submit", value = "Back" />
+	</form>
+
+</body>
+</html>
